@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "421585946905",
+    "project_id": "casa-dos-cursos",
+    "storage_bucket": "casa-dos-cursos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421585946905:android:51ead687d323c00c889d88",
+        "android_client_info": {
+          "package_name": "com.example.casadoscursos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421585946905-o3id1eaggk3riticsf9sft2glltuujk0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI4TV02ZhDQ9kx3gOeqU8ytD7qwbVcC-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421585946905-o3id1eaggk3riticsf9sft2glltuujk0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
