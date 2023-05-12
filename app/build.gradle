@@ -47,7 +47,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //firebase
-    implementation 'com.google.firebase:firebase-config-ktx:21.0.2'
+    implementation 'com.google.firebase:firebase-config-ktx:21.4.0'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -56,4 +56,11 @@ dependencies {
     //viewmodel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+
+    //koin
+    implementation 'io.insert-koin:koin-android:3.0.1'
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.8'
+
 }

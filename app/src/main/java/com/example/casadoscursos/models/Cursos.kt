@@ -1,9 +1,9 @@
 package com.example.casadoscursos.models
 
-data class CursoCulinaria(
+data class Cursos(
     val enabled: Boolean = true,
     val categoriaCurso: String? = null,
-    val cursos: List<Curso> = arrayListOf()
+    val cursos: ArrayList<Curso> = arrayListOf()
 ) {
     data class Curso(
         val linkCurso: String,
