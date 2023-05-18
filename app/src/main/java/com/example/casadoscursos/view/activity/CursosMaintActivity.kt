@@ -19,7 +19,7 @@ class CursosMaintActivity : AppCompatActivity() {
         CursosAdapter(supportFragmentManager, lifecycle)
     }
 
-    val titles = arrayListOf("Beleza", "Culinária", "Educação", "Saúde")
+    val titles = arrayListOf("Educação", "Culinária", "Beleza", "Bem Estar")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

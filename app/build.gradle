@@ -63,4 +63,6 @@ dependencies {
     //picasso
     implementation 'com.squareup.picasso:picasso:2.8'
 
+    //skeleton
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
 }

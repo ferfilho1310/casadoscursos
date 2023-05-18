@@ -15,4 +15,19 @@ interface RemoteConfigRepositoryContract {
         context: Context?,
         paramRemoteConfig: String
     ): Flow<TitlesCursos>
+
+    fun remoteConfigFetchCulinaria(
+        context: Context?,
+        categoryCursoRemoteConfig: String
+    ): Flow<Cursos>
+
+    fun remoteConfigFetchEducacao(
+        context: Context?,
+        categoryCursoRemoteConfig: String
+    ): Flow<Cursos>
+
+    fun remoteConfigFetchBemEstar(
+        context: Context?,
+        categoryCursoRemoteConfig: String
+    ): Flow<Cursos>
 }

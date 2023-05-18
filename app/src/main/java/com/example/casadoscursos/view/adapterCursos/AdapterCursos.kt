@@ -7,14 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.casadoscursos.databinding.CursoItemBinding
 import com.example.casadoscursos.models.Cursos
 
-class AdapterCursos : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdapterCursos() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var context: Context? = null
     var listCursos: ArrayList<Cursos.Curso>? = arrayListOf()
+    var listener: CursoListener? = null
 
-    fun setCursos(context: Context, cursos: ArrayList<Cursos.Curso>?) {
+    fun setCursos(context: Context, cursos: ArrayList<Cursos.Curso>?, listener: CursoListener) {
         listCursos = cursos
         this.context = context
+        this.listener = listener
         notifyDataSetChanged()
     }
 
@@ -35,8 +37,12 @@ class AdapterCursos : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as CursosViewHolder
         listCursos?.let {
-            viewHolder.bind(it[position])
+            viewHolder.bind(it[position], listener)
             viewHolder.setImageCurso(it[position])
         }
+    }
+
+    interface CursoListener {
+        fun onClickCurso(urlAffiliate: String)
     }
 }

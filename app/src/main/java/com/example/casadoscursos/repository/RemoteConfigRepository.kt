@@ -15,6 +15,36 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
 
     val frc = FirebaseRemoteConfig.getInstance()
 
+    override fun remoteConfigFetchBemEstar(
+        context: Context?,
+        categoryCursoRemoteConfig: String
+    ): Flow<Cursos> {
+        return callbackFlow {
+            val gson = Gson()
+            val listener = frc.fetchAndActivate()
+                .addOnCompleteListener(context as Activity) { task ->
+                    if (task.isSuccessful) {
+                        val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
+                        if (adsListRemoteConfig.isNotEmpty()) {
+                            val ads = gson.fromJson(adsListRemoteConfig, Cursos::class.java)
+                            trySend(ads).isSuccess
+                            Log.i("Json Cursos", "$ads")
+                        } else {
+                            trySend(Cursos()).isFailure
+                            Log.e(
+                                "Error",
+                                "Erro ao fazer o fetch no remote config ${task.exception}"
+                            )
+                        }
+                    }
+                }
+            awaitClose {
+                listener.isCanceled
+            }
+        }
+    }
+
+
     override fun remoteConfigFetch(
         context: Context?,
         categoryCursoRemoteConfig: String
@@ -28,6 +58,65 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
                         if (adsListRemoteConfig.isNotEmpty()) {
                             val ads = gson.fromJson(adsListRemoteConfig, Cursos::class.java)
                             trySend(ads).isSuccess
+                            Log.i("Json Cursos", "$ads")
+                        } else {
+                            trySend(Cursos()).isFailure
+                            Log.e(
+                                "Error",
+                                "Erro ao fazer o fetch no remote config ${task.exception}"
+                            )
+                        }
+                    }
+                }
+            awaitClose {
+                listener.isCanceled
+            }
+        }
+    }
+
+    override fun remoteConfigFetchCulinaria(
+        context: Context?,
+        categoryCursoRemoteConfig: String
+    ): Flow<Cursos> {
+        return callbackFlow {
+            val gson = Gson()
+            val listener = frc.fetchAndActivate()
+                .addOnCompleteListener(context as Activity) { task ->
+                    if (task.isSuccessful) {
+                        val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
+                        if (adsListRemoteConfig.isNotEmpty()) {
+                            val ads = gson.fromJson(adsListRemoteConfig, Cursos::class.java)
+                            trySend(ads).isSuccess
+                            Log.i("Json Cursos", "$ads")
+                        } else {
+                            trySend(Cursos()).isFailure
+                            Log.e(
+                                "Error",
+                                "Erro ao fazer o fetch no remote config ${task.exception}"
+                            )
+                        }
+                    }
+                }
+            awaitClose {
+                listener.isCanceled
+            }
+        }
+    }
+
+    override fun remoteConfigFetchEducacao(
+        context: Context?,
+        categoryCursoRemoteConfig: String
+    ): Flow<Cursos> {
+        return callbackFlow {
+            val gson = Gson()
+            val listener = frc.fetchAndActivate()
+                .addOnCompleteListener(context as Activity) { task ->
+                    if (task.isSuccessful) {
+                        val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
+                        if (adsListRemoteConfig.isNotEmpty()) {
+                            val ads = gson.fromJson(adsListRemoteConfig, Cursos::class.java)
+                            trySend(ads).isSuccess
+                            Log.i("Json Cursos", "$ads")
                         } else {
                             trySend(Cursos()).isFailure
                             Log.e(
