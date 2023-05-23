@@ -3,24 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name=".di.CasaDosCursosApplication"
+        android:name="br.com.casadoscursos.di.CasaDosCursosApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CasaDosCursos"
+        android:theme="@style/Theme.AppCompat.Light"
         tools:targetApi="31">
         <activity
-            android:name=".view.activity.CursosMaintActivity"
-            android:exported="true">
+            android:name=".view.onboarding.view.OnboardingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.activity.CursosMaintActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

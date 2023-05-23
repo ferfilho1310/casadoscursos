@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.casadoscursos'
+    namespace 'br.com.casadoscursos'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.casadoscursos"
+        applicationId "br.com.casadoscursos"
         minSdk 24
         targetSdk 33
         versionCode 1

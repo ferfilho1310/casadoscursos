@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="35dp" />
+    <gradient
+        android:angle="45"
+        android:centerColor="@color/button_background_color"
+        android:centerX="35%"
+        android:endColor="@color/button_background_color"
+        android:startColor="@color/button_background_color"
+        android:type="linear" />
+
+    <!--<stroke
+        android:width="2dp"
+        android:color="@android:color/holo_blue_light" />-->
+</shape>
