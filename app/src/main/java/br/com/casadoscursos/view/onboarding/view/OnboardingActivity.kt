@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import br.com.casadoscursos.R
 import br.com.casadoscursos.databinding.ActivityOnboardingBinding
+import br.com.casadoscursos.models.OnboardingItem
 import br.com.casadoscursos.view.activity.CursosMaintActivity
 import br.com.casadoscursos.view.onboarding.adapter.OnboardingItemsAdapter
 
@@ -43,7 +44,14 @@ class OnboardingActivity : AppCompatActivity(), View.OnClickListener {
     private fun setOnboardingItems() {
         adsAdapter.setItemOnboarding(
             arrayListOf(
-
+                OnboardingItem(
+                    title = "Vários cursos relacionados a internet e a linguas para atender às necessidades de aprendizagem de todos.",
+                    image = R.raw.educacao
+                ),
+                OnboardingItem(
+                    title = "Explore nosso catálogo de cursos e aprimore suas habilidades em maquiagem, penteados e muito mais.",
+                    image = R.raw.beleza
+                )
             )
         )
 

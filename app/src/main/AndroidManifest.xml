@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name="br.com.casadoscursos.di.CasaDosCursosApplication"
+        android:name=".di.CasaDosCursosApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,19 +13,27 @@
         android:theme="@style/Theme.AppCompat.Light"
         tools:targetApi="31">
         <activity
-            android:name=".view.onboarding.view.OnboardingActivity"
-            android:exported="true"
-            android:screenOrientation="portrait">
+            android:name=".view.splashscreen.SplashScreen"
+            android:exported="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
+        </activity>
+        <activity
+            android:name=".view.onboarding.view.OnboardingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".view.activity.CursosMaintActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-    </application>
+            android:screenOrientation="portrait">
 
+        </activity>
+    </application>
 </manifest>
