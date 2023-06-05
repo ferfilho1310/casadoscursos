@@ -12,6 +12,14 @@ class CursosViewHolder(val binding: CursoItemBinding) : RecyclerView.ViewHolder(
     fun bind(curso: Curso, listener: AdapterCursos.CursoListener?) {
         binding.tvNameCurso.text = curso.titleCurso
         binding.subTextItem.text = curso.subtitleCurso
+
+        binding.apply {
+            tvPrecoCurso.text = curso.precoCurso
+            tvPrecoCurso.isVisible = curso.precoCurso != null
+
+            textView.isVisible =  curso.precoCurso != null
+        }
+
         binding.button.setOnClickListener {
             listener?.onClickCurso(curso.linkCurso)
         }

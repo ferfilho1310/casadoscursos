@@ -9,6 +9,7 @@ data class Cursos(
         val linkCurso: String,
         val titleCurso: String,
         val imageCurso: String,
-        val subtitleCurso: String
+        val subtitleCurso: String,
+        val precoCurso: String? = null
     )
 }

@@ -1,7 +1,5 @@
 package br.com.casadoscursos.view.fragments.culinariaCursos
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +9,7 @@ import androidx.fragment.app.Fragment
 import br.com.casadoscursos.databinding.CursoFragmentBinding
 import br.com.casadoscursos.helpers.Response
 import br.com.casadoscursos.view.adapterCursos.AdapterCursos
+import br.com.casadoscursos.view.fragments.cursonavigatebottomsheet.CursoInformationNavigateBottomSheet
 import br.com.casadoscursos.viewModels.RemoteConfigViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -62,18 +61,14 @@ class CulinariaFragment : Fragment() {
 
                     adapterCursos.setCursos(requireContext(),it.data, object: AdapterCursos.CursoListener {
                         override fun onClickCurso(urlAffiliate: String) {
-                            sendPageWeb(urlAffiliate)
+                            val bottomSheet = CursoInformationNavigateBottomSheet(urlAffiliate)
+                            bottomSheet.show(childFragmentManager, "TAG")
                         }
                     })
                 }
                 else -> Unit
             }
         }
-    }
-
-    private fun sendPageWeb(urlAfiliate: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlAfiliate.trim()))
-        startActivity(browserIntent)
     }
 
     override fun onDestroyView() {

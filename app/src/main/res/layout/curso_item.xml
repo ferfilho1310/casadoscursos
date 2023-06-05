@@ -35,6 +35,29 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valor:"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/tvNameCurso"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameCurso" />
+
+        <TextView
+            android:id="@+id/tv_preco_curso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            tools:text="R$ 153,25" />
+        <TextView
             android:id="@+id/tvNameCurso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,13 +73,13 @@
             android:id="@+id/subText_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:textColor="@color/black"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="@+id/tvNameCurso"
             app:layout_constraintStart_toStartOf="@+id/tvNameCurso"
-            app:layout_constraintTop_toBottomOf="@+id/tvNameCurso"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
             tools:text="imply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown" />
 
         <Button
