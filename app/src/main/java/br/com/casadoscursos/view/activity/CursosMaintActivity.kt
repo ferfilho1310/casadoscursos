@@ -11,6 +11,7 @@ import br.com.casadoscursos.databinding.CursosMainActivityBinding
 import br.com.casadoscursos.view.activity.CursosMaintActivity.PREFERENCE.SKIP_DIALOG_INFORMATION
 import br.com.casadoscursos.view.activity.adapter.CursosAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import java.lang.StringBuilder
 
 class CursosMaintActivity : AppCompatActivity() {
 
@@ -22,14 +23,13 @@ class CursosMaintActivity : AppCompatActivity() {
     }
     private lateinit var sharedPreferences: SharedPreferences
 
-    val titles = arrayListOf("Educação", "Culinária", "Beleza", "Bem Estar")
+    val titles = arrayListOf("Beleza", "Culinária", "Educação", "Bem Estar")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        supportActionBar?.hide()
 
-        val  window = this.window;
+        supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorStatusBar)
 
         sharedPreferences = getSharedPreferences(SKIP_DIALOG_INFORMATION, Context.MODE_PRIVATE)
@@ -41,18 +41,21 @@ class CursosMaintActivity : AppCompatActivity() {
             }.attach()
         }
 
-        if(!sharedPreferences.getBoolean(SKIP_DIALOG_INFORMATION,false)) {
+        if (!sharedPreferences.getBoolean(SKIP_DIALOG_INFORMATION, false)) {
             setDialogInformation()
         }
     }
 
     private fun setDialogInformation() {
+        val messageInformation = StringBuilder()
+        messageInformation.append("1. A Casa dos cursos é apenas um catálogo e NÃO possui responsabilidade nos pagamentos e qualidade dos produtos.\n")
+        messageInformation.append("2. Todos os cursos e e-books estão na Hotmart, uma plataforma segura e confiável.\n")
+        messageInformation.append("3. Para acessar o curso adquirido basta efetuar o pagamento e seguir as informações que serão passadas.")
+
         AlertDialog.Builder(this)
             .setTitle("Informação")
             .setMessage(
-                "Os Cursos da 'Casa dos cursos' são todos de responsabilidade do seus criadores. " +
-                        "O app é apenas uma vitrine para venda dos cursos. Sendo assim, a responsabilidade de qualidade " +
-                        "e pagamentos fica a cargo do criador e da plataforma onde o curso está hospedado."
+                messageInformation
             )
             .setPositiveButton(
                 "Entendi"

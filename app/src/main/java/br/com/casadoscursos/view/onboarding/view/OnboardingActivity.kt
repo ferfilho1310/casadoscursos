@@ -31,6 +31,7 @@ class OnboardingActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorStatusBar)
 
         sharedPreferences = getSharedPreferences(SKIPPED.SKIPPED_ONBOARDING, Context.MODE_PRIVATE)
 

@@ -11,6 +11,7 @@ import br.com.casadoscursos.helpers.Response
 import br.com.casadoscursos.view.adapterCursos.AdapterCursos
 import br.com.casadoscursos.view.fragments.cursonavigatebottomsheet.CursoInformationNavigateBottomSheet
 import br.com.casadoscursos.viewModels.RemoteConfigViewModel
+import com.google.android.gms.ads.AdRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SaudeFragment : Fragment() {
@@ -36,6 +37,20 @@ class SaudeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewmodel.remoteConfigFetchBemEstar(context, PARAMENTRO_SAUDE)
         setViewModel()
+        loadAds()
+        setSwipeRefreshLayoutListener()
+    }
+
+    private fun loadAds() {
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+    }
+
+    private fun setSwipeRefreshLayoutListener() {
+        binding.swipe.setOnRefreshListener {
+            viewmodel.remoteConfigFetchBemEstar(context, PARAMENTRO_SAUDE)
+            binding.swipe.isRefreshing = false
+        }
     }
 
     private fun setViewModel() {

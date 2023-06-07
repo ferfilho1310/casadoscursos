@@ -21,7 +21,7 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
     ): Flow<Cursos> {
         return callbackFlow {
             val gson = Gson()
-            val listener = frc.fetchAndActivate()
+            val listener = frc.fetch(0)
                 .addOnCompleteListener(context as Activity) { task ->
                     if (task.isSuccessful) {
                         val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
@@ -51,7 +51,7 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
     ): Flow<Cursos> {
         return callbackFlow {
             val gson = Gson()
-            val listener = frc.fetchAndActivate()
+            val listener = frc.fetch(0)
                 .addOnCompleteListener(context as Activity) { task ->
                     if (task.isSuccessful) {
                         val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
@@ -59,6 +59,7 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
                             val ads = gson.fromJson(adsListRemoteConfig, Cursos::class.java)
                             trySend(ads).isSuccess
                             Log.i("Json Cursos", "$ads")
+                            frc.fetchAndActivate()
                         } else {
                             trySend(Cursos()).isFailure
                             Log.e(
@@ -67,6 +68,13 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
                             )
                         }
                     }
+                }.addOnFailureListener {
+
+                    trySend(Cursos()).isFailure
+                    Log.e(
+                        "Error",
+                        "Erro ao fazer o fetch no remote config $it"
+                    )
                 }
             awaitClose {
                 listener.isCanceled
@@ -80,7 +88,7 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
     ): Flow<Cursos> {
         return callbackFlow {
             val gson = Gson()
-            val listener = frc.fetchAndActivate()
+            val listener = frc.fetch(0)
                 .addOnCompleteListener(context as Activity) { task ->
                     if (task.isSuccessful) {
                         val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
@@ -109,7 +117,7 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
     ): Flow<Cursos> {
         return callbackFlow {
             val gson = Gson()
-            val listener = frc.fetchAndActivate()
+            val listener = frc.fetch(0)
                 .addOnCompleteListener(context as Activity) { task ->
                     if (task.isSuccessful) {
                         val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
@@ -138,7 +146,7 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
     ): Flow<TitlesCursos> {
         return callbackFlow {
             val gson = Gson()
-            val listener = frc.fetchAndActivate()
+            val listener = frc.fetch(0)
                 .addOnCompleteListener(context as Activity) { task ->
                     if (task.isSuccessful) {
                         val adsListRemoteConfig = frc.getString(paramRemoteConfig)

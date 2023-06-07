@@ -11,6 +11,7 @@ import br.com.casadoscursos.helpers.Response
 import br.com.casadoscursos.view.adapterCursos.AdapterCursos
 import br.com.casadoscursos.view.fragments.cursonavigatebottomsheet.CursoInformationNavigateBottomSheet
 import br.com.casadoscursos.viewModels.RemoteConfigViewModel
+import com.google.android.gms.ads.AdRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EducacaoFragment : Fragment() {
@@ -29,6 +30,7 @@ class EducacaoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = CursoFragmentBinding.inflate(layoutInflater)
+        loadAds()
         return binding.root
     }
 
@@ -36,6 +38,19 @@ class EducacaoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewmodel.remoteConfigFetchEducacao(context, PARAMENTRO_EDUCACAO)
         setViewModel()
+        setSwipeRefreshLayoutListener()
+    }
+
+    private fun loadAds() {
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+    }
+
+    private fun setSwipeRefreshLayoutListener() {
+        binding.swipe.setOnRefreshListener {
+            viewmodel.remoteConfigFetchEducacao(context, PARAMENTRO_EDUCACAO)
+            binding.swipe.isRefreshing = false
+        }
     }
 
     private fun setViewModel() {

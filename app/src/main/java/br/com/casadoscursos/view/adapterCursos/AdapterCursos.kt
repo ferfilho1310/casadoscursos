@@ -14,7 +14,8 @@ class AdapterCursos : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var listener: CursoListener? = null
 
     fun setCursos(context: Context, cursos: ArrayList<Curso>?, listener: CursoListener) {
-        listCursos = cursos
+        listCursos?.clear()
+        listCursos?.addAll(cursos.orEmpty())
         this.context = context
         this.listener = listener
         notifyDataSetChanged()
