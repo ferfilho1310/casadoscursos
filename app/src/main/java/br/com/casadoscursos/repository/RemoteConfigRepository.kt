@@ -1,43 +1,31 @@
 package br.com.casadoscursos.repository
 
-import android.app.Activity
 import android.content.Context
-import android.util.Log
 import br.com.casadoscursos.models.Cursos
-import br.com.casadoscursos.models.TitlesCursos
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.gson.Gson
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 class RemoteConfigRepository : RemoteConfigRepositoryContract {
 
-    val frc = FirebaseRemoteConfig.getInstance()
+    val frc = FirebaseFirestore.getInstance()
 
     override fun remoteConfigFetchBemEstar(
         context: Context?,
         categoryCursoRemoteConfig: String
-    ): Flow<Cursos> {
+    ): Flow<ArrayList<Cursos.Curso>> {
         return callbackFlow {
-            val gson = Gson()
-            val listener = frc.fetch(0)
-                .addOnCompleteListener(context as Activity) { task ->
-                    if (task.isSuccessful) {
-                        val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
-                        if (adsListRemoteConfig.isNotEmpty()) {
-                            val ads = gson.fromJson(adsListRemoteConfig, Cursos::class.java)
-                            trySend(ads).isSuccess
-                            Log.i("Json Cursos", "$ads")
-                        } else {
-                            trySend(Cursos()).isFailure
-                            Log.e(
-                                "Error",
-                                "Erro ao fazer o fetch no remote config ${task.exception}"
-                            )
-                        }
-                    }
+            val listener = frc
+                .collection("bemestar")
+                .get()
+                .addOnSuccessListener {
+                    val belezaList = it.map { it.toObject(Cursos.Curso::class.java) }
+                    trySend(belezaList as ArrayList).isSuccess
+                }.addOnFailureListener {
+                    trySend(arrayListOf()).isFailure
                 }
+
             awaitClose {
                 listener.isCanceled
             }
@@ -45,37 +33,21 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
     }
 
 
-    override fun remoteConfigFetch(
+    override fun remoteConfigFetchBeleza(
         context: Context?,
         categoryCursoRemoteConfig: String
-    ): Flow<Cursos> {
+    ): Flow<ArrayList<Cursos.Curso>> {
         return callbackFlow {
-            val gson = Gson()
-            val listener = frc.fetch(0)
-                .addOnCompleteListener(context as Activity) { task ->
-                    if (task.isSuccessful) {
-                        val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
-                        if (adsListRemoteConfig.isNotEmpty()) {
-                            val ads = gson.fromJson(adsListRemoteConfig, Cursos::class.java)
-                            trySend(ads).isSuccess
-                            Log.i("Json Cursos", "$ads")
-                            frc.fetchAndActivate()
-                        } else {
-                            trySend(Cursos()).isFailure
-                            Log.e(
-                                "Error",
-                                "Erro ao fazer o fetch no remote config ${task.exception}"
-                            )
-                        }
-                    }
+            val listener = frc
+                .collection("beleza")
+                .get()
+                .addOnSuccessListener {
+                    val belezaList = it.map { it.toObject(Cursos.Curso::class.java) }
+                    trySend(belezaList as ArrayList).isSuccess
                 }.addOnFailureListener {
-
-                    trySend(Cursos()).isFailure
-                    Log.e(
-                        "Error",
-                        "Erro ao fazer o fetch no remote config $it"
-                    )
+                    trySend(arrayListOf()).isFailure
                 }
+
             awaitClose {
                 listener.isCanceled
             }
@@ -85,26 +57,18 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
     override fun remoteConfigFetchCulinaria(
         context: Context?,
         categoryCursoRemoteConfig: String
-    ): Flow<Cursos> {
+    ): Flow<ArrayList<Cursos.Curso>> {
         return callbackFlow {
-            val gson = Gson()
-            val listener = frc.fetch(0)
-                .addOnCompleteListener(context as Activity) { task ->
-                    if (task.isSuccessful) {
-                        val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
-                        if (adsListRemoteConfig.isNotEmpty()) {
-                            val ads = gson.fromJson(adsListRemoteConfig, Cursos::class.java)
-                            trySend(ads).isSuccess
-                            Log.i("Json Cursos", "$ads")
-                        } else {
-                            trySend(Cursos()).isFailure
-                            Log.e(
-                                "Error",
-                                "Erro ao fazer o fetch no remote config ${task.exception}"
-                            )
-                        }
-                    }
+            val listener = frc
+                .collection("culinaria")
+                .get()
+                .addOnSuccessListener {
+                    val belezaList = it.map { it.toObject(Cursos.Curso::class.java) }
+                    trySend(belezaList as ArrayList).isSuccess
+                }.addOnFailureListener {
+                    trySend(arrayListOf()).isFailure
                 }
+
             awaitClose {
                 listener.isCanceled
             }
@@ -114,54 +78,18 @@ class RemoteConfigRepository : RemoteConfigRepositoryContract {
     override fun remoteConfigFetchEducacao(
         context: Context?,
         categoryCursoRemoteConfig: String
-    ): Flow<Cursos> {
+    ): Flow<ArrayList<Cursos.Curso>> {
         return callbackFlow {
-            val gson = Gson()
-            val listener = frc.fetch(0)
-                .addOnCompleteListener(context as Activity) { task ->
-                    if (task.isSuccessful) {
-                        val adsListRemoteConfig = frc.getString(categoryCursoRemoteConfig)
-                        if (adsListRemoteConfig.isNotEmpty()) {
-                            val ads = gson.fromJson(adsListRemoteConfig, Cursos::class.java)
-                            trySend(ads).isSuccess
-                            Log.i("Json Cursos", "$ads")
-                        } else {
-                            trySend(Cursos()).isFailure
-                            Log.e(
-                                "Error",
-                                "Erro ao fazer o fetch no remote config ${task.exception}"
-                            )
-                        }
-                    }
+            val listener = frc
+                .collection("educacao")
+                .get()
+                .addOnSuccessListener {
+                    val belezaList = it.map { it.toObject(Cursos.Curso::class.java) }
+                    trySend(belezaList as ArrayList).isSuccess
+                }.addOnFailureListener {
+                    trySend(arrayListOf()).isFailure
                 }
-            awaitClose {
-                listener.isCanceled
-            }
-        }
-    }
 
-    override fun remoteConfigFetchTitles(
-        context: Context?,
-        paramRemoteConfig: String
-    ): Flow<TitlesCursos> {
-        return callbackFlow {
-            val gson = Gson()
-            val listener = frc.fetch(0)
-                .addOnCompleteListener(context as Activity) { task ->
-                    if (task.isSuccessful) {
-                        val adsListRemoteConfig = frc.getString(paramRemoteConfig)
-                        if (adsListRemoteConfig.isNotEmpty()) {
-                            val ads = gson.fromJson(adsListRemoteConfig, TitlesCursos::class.java)
-                            trySend(ads).isSuccess
-                        } else {
-                            trySend(TitlesCursos()).isFailure
-                            Log.e(
-                                "Error",
-                                "Erro ao fazer o fetch no remote config ${task.exception}"
-                            )
-                        }
-                    }
-                }
             awaitClose {
                 listener.isCanceled
             }

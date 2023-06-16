@@ -21,7 +21,7 @@ class CursosViewHolder(val binding: CursoItemBinding) : RecyclerView.ViewHolder(
         }
 
         binding.button.setOnClickListener {
-            listener?.onClickCurso(curso.linkCurso)
+            listener?.onClickCurso(curso.linkCurso.orEmpty())
         }
     }
 

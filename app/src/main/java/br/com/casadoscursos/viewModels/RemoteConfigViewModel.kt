@@ -37,16 +37,11 @@ class RemoteConfigViewModel(
     var remoteconfigBemEstar: LiveData<Response<ArrayList<Curso>>> =
         _remoteconfigBemEstar
 
-    private val _remoteconfigTitles: MutableLiveData<Response<List<String>>> =
-        MutableLiveData()
-    var remoteconfigTitles: LiveData<Response<List<String>>> =
-        _remoteconfigTitles
-
     override fun remoteConfigFetchEducacao(context: Context?, categoryCursoRemoteConfig: String) {
         repository.remoteConfigFetchEducacao(context, categoryCursoRemoteConfig)
             .onEach {
                 _remoteconfigEducacao.value =
-                    Response.SUCCESS(it.cursos)
+                    Response.SUCCESS(it)
             }.catch {
                 _remoteconfigEducacao.value = Response.ERROR()
             }.launchIn(viewModelScope)
@@ -56,37 +51,28 @@ class RemoteConfigViewModel(
         repository.remoteConfigFetchBemEstar(context, categoryCursoRemoteConfig)
             .onEach {
                 _remoteconfigBemEstar.value =
-                    Response.SUCCESS(it.cursos)
+                    Response.SUCCESS(it)
             }.catch {
                 _remoteconfigBemEstar.value = Response.ERROR()
             }.launchIn(viewModelScope)
     }
 
     override fun remoteConfigFetch(context: Context?, categoryCursoRemoteConfig: String) {
-        repository.remoteConfigFetch(context, categoryCursoRemoteConfig)
+        repository.remoteConfigFetchBeleza(context, categoryCursoRemoteConfig)
             .onEach {
-                _remoteconfig.value = Response.SUCCESS(it.cursos)
+                _remoteconfig.value = Response.SUCCESS(it)
             }.catch {
                 _remoteconfig.value = Response.ERROR()
             }.launchIn(viewModelScope)
     }
 
     override fun remoteConfigFetchCulinaria(context: Context?, categoryCursoRemoteConfig: String) {
-        repository.remoteConfigFetch(context, categoryCursoRemoteConfig)
+        repository.remoteConfigFetchCulinaria(context, categoryCursoRemoteConfig)
             .onEach {
                 _remoteconfigCulinaria.value =
-                    Response.SUCCESS(it.cursos)
+                    Response.SUCCESS(it)
             }.catch {
                 _remoteconfigCulinaria.value = Response.ERROR()
-            }.launchIn(viewModelScope)
-    }
-
-    override fun remoteConfigFetchTitles(context: Context?, paramRemoteConfig: String) {
-        repository.remoteConfigFetchTitles(context, paramRemoteConfig)
-            .onEach {
-                _remoteconfigTitles.value = Response.SUCCESS(it.titles)
-            }.catch {
-                _remoteconfigTitles.value = Response.ERROR()
             }.launchIn(viewModelScope)
     }
 }
