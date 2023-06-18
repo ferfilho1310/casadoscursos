@@ -38,6 +38,8 @@ class RemoteConfigViewModel(
         _remoteconfigBemEstar
 
     override fun remoteConfigFetchEducacao(context: Context?, categoryCursoRemoteConfig: String) {
+        _remoteconfigEducacao.value =
+            Response.LOADING()
         repository.remoteConfigFetchEducacao(context, categoryCursoRemoteConfig)
             .onEach {
                 _remoteconfigEducacao.value =
@@ -48,6 +50,7 @@ class RemoteConfigViewModel(
     }
 
     override fun remoteConfigFetchBemEstar(context: Context?, categoryCursoRemoteConfig: String) {
+        _remoteconfigBemEstar.value = Response.LOADING()
         repository.remoteConfigFetchBemEstar(context, categoryCursoRemoteConfig)
             .onEach {
                 _remoteconfigBemEstar.value =
@@ -58,6 +61,7 @@ class RemoteConfigViewModel(
     }
 
     override fun remoteConfigFetch(context: Context?, categoryCursoRemoteConfig: String) {
+        _remoteconfig.value = Response.LOADING()
         repository.remoteConfigFetchBeleza(context, categoryCursoRemoteConfig)
             .onEach {
                 _remoteconfig.value = Response.SUCCESS(it)
@@ -67,6 +71,7 @@ class RemoteConfigViewModel(
     }
 
     override fun remoteConfigFetchCulinaria(context: Context?, categoryCursoRemoteConfig: String) {
+        _remoteconfigCulinaria.value = Response.LOADING()
         repository.remoteConfigFetchCulinaria(context, categoryCursoRemoteConfig)
             .onEach {
                 _remoteconfigCulinaria.value =
