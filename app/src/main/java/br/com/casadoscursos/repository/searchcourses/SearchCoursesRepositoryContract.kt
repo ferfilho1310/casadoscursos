@@ -1,10 +1,10 @@
-package br.com.casadoscursos.repository
+package br.com.casadoscursos.repository.searchcourses
 
 import android.content.Context
 import br.com.casadoscursos.models.Cursos
 import kotlinx.coroutines.flow.Flow
 
-interface RemoteConfigRepositoryContract {
+interface SearchCoursesRepositoryContract {
     fun remoteConfigFetchBeleza(
         context: Context?,
         categoryCursoRemoteConfig: String

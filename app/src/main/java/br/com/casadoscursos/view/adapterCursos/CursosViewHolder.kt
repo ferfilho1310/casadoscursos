@@ -9,7 +9,7 @@ import com.squareup.picasso.Picasso
 
 class CursosViewHolder(val binding: CursoItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(curso: Curso, listener: AdapterCursos.CursoListener?) {
+    fun bind(curso: Curso) {
         binding.tvNameCurso.text = curso.titleCurso
         binding.subTextItem.text = curso.subtitleCurso
 
@@ -19,9 +19,12 @@ class CursosViewHolder(val binding: CursoItemBinding) : RecyclerView.ViewHolder(
 
             textView.isVisible =  curso.precoCurso != null
         }
+    }
 
+    fun setOnclickListener(curso: Curso, listener: AdapterCursos.CursoListener?) {
         binding.button.setOnClickListener {
-            listener?.onClickCurso(curso.linkCurso.orEmpty())
+            listener?.onClickCurso(curso)
+            listener?.monitoringClick(curso)
         }
     }
 

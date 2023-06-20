@@ -7,49 +7,49 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.casadoscursos.helpers.Response
 import br.com.casadoscursos.models.Cursos.Curso
-import br.com.casadoscursos.repository.RemoteConfigRepositoryContract
+import br.com.casadoscursos.repository.searchcourses.SearchCoursesRepositoryContract
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class RemoteConfigViewModel(
-    val repository: RemoteConfigRepositoryContract
+class SearchCoursesViewModel(
+    val repository: SearchCoursesRepositoryContract
 ) : ViewModel(),
-    RemoteConfigViewModelContract {
+    SearchCoursesViewModelContract {
 
-    private val _remoteconfig: MutableLiveData<Response<ArrayList<Curso>>> =
+    private val _searchCoursesBeleza: MutableLiveData<Response<ArrayList<Curso>>> =
         MutableLiveData()
-    var remoteconfig: LiveData<Response<ArrayList<Curso>>> =
-        _remoteconfig
+    var searchCoursesBeleza: LiveData<Response<ArrayList<Curso>>> =
+        _searchCoursesBeleza
 
-    private val _remoteconfigCulinaria: MutableLiveData<Response<ArrayList<Curso>>> =
+    private val _searchCoursesCulinaria: MutableLiveData<Response<ArrayList<Curso>>> =
         MutableLiveData()
-    var remoteconfigCulinaria: LiveData<Response<ArrayList<Curso>>> =
-        _remoteconfigCulinaria
+    var searchCoursesCulinaria: LiveData<Response<ArrayList<Curso>>> =
+        _searchCoursesCulinaria
 
-    private val _remoteconfigEducacao: MutableLiveData<Response<ArrayList<Curso>>> =
+    private val _searchCoursesEducacao: MutableLiveData<Response<ArrayList<Curso>>> =
         MutableLiveData()
-    var remoteconfigEducacao: LiveData<Response<ArrayList<Curso>>> =
-        _remoteconfigEducacao
+    var searchCoursesEducacao: LiveData<Response<ArrayList<Curso>>> =
+        _searchCoursesEducacao
 
     private val _remoteconfigBemEstar: MutableLiveData<Response<ArrayList<Curso>>> =
         MutableLiveData()
     var remoteconfigBemEstar: LiveData<Response<ArrayList<Curso>>> =
         _remoteconfigBemEstar
 
-    override fun remoteConfigFetchEducacao(context: Context?, categoryCursoRemoteConfig: String) {
-        _remoteconfigEducacao.value =
+    override fun searchCoursesEducacao(context: Context?, categoryCursoRemoteConfig: String) {
+        _searchCoursesEducacao.value =
             Response.LOADING()
         repository.remoteConfigFetchEducacao(context, categoryCursoRemoteConfig)
             .onEach {
-                _remoteconfigEducacao.value =
+                _searchCoursesEducacao.value =
                     Response.SUCCESS(it)
             }.catch {
-                _remoteconfigEducacao.value = Response.ERROR()
+                _searchCoursesEducacao.value = Response.ERROR()
             }.launchIn(viewModelScope)
     }
 
-    override fun remoteConfigFetchBemEstar(context: Context?, categoryCursoRemoteConfig: String) {
+    override fun searchCoursesBemEstar(context: Context?, categoryCursoRemoteConfig: String) {
         _remoteconfigBemEstar.value = Response.LOADING()
         repository.remoteConfigFetchBemEstar(context, categoryCursoRemoteConfig)
             .onEach {
@@ -60,24 +60,24 @@ class RemoteConfigViewModel(
             }.launchIn(viewModelScope)
     }
 
-    override fun remoteConfigFetch(context: Context?, categoryCursoRemoteConfig: String) {
-        _remoteconfig.value = Response.LOADING()
+    override fun searchCoursesBeleza(context: Context?, categoryCursoRemoteConfig: String) {
+        _searchCoursesBeleza.value = Response.LOADING()
         repository.remoteConfigFetchBeleza(context, categoryCursoRemoteConfig)
             .onEach {
-                _remoteconfig.value = Response.SUCCESS(it)
+                _searchCoursesBeleza.value = Response.SUCCESS(it)
             }.catch {
-                _remoteconfig.value = Response.ERROR()
+                _searchCoursesBeleza.value = Response.ERROR()
             }.launchIn(viewModelScope)
     }
 
-    override fun remoteConfigFetchCulinaria(context: Context?, categoryCursoRemoteConfig: String) {
-        _remoteconfigCulinaria.value = Response.LOADING()
+    override fun searchCoursesCulinaria(context: Context?, categoryCursoRemoteConfig: String) {
+        _searchCoursesCulinaria.value = Response.LOADING()
         repository.remoteConfigFetchCulinaria(context, categoryCursoRemoteConfig)
             .onEach {
-                _remoteconfigCulinaria.value =
+                _searchCoursesCulinaria.value =
                     Response.SUCCESS(it)
             }.catch {
-                _remoteconfigCulinaria.value = Response.ERROR()
+                _searchCoursesCulinaria.value = Response.ERROR()
             }.launchIn(viewModelScope)
     }
 }

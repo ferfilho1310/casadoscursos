@@ -38,12 +38,14 @@ class AdapterCursos : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as CursosViewHolder
         listCursos?.let {
-            viewHolder.bind(it[position], listener)
+            viewHolder.bind(it[position])
             viewHolder.setImageCurso(it[position])
+            viewHolder.setOnclickListener(it[position],listener)
         }
     }
 
     interface CursoListener {
-        fun onClickCurso(urlAffiliate: String)
+        fun onClickCurso(curso: Curso)
+        fun monitoringClick(curso: Curso)
     }
 }

@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import br.com.casadoscursos.R
 import br.com.casadoscursos.view.onboarding.view.OnboardingActivity
 
+
 class SplashScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

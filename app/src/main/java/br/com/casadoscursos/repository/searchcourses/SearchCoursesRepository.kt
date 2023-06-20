@@ -1,4 +1,4 @@
-package br.com.casadoscursos.repository
+package br.com.casadoscursos.repository.searchcourses
 
 import android.content.Context
 import br.com.casadoscursos.models.Cursos
@@ -7,7 +7,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-class RemoteConfigRepository : RemoteConfigRepositoryContract {
+class SearchCoursesRepository : SearchCoursesRepositoryContract {
 
     val frc = FirebaseFirestore.getInstance()
 

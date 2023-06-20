@@ -1,10 +1,15 @@
 package br.com.casadoscursos.view.activity
 
+import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import br.com.casadoscursos.R
 import br.com.casadoscursos.databinding.CursosMainActivityBinding
@@ -44,6 +49,7 @@ class CursosMaintActivity : AppCompatActivity() {
         if (!sharedPreferences.getBoolean(SKIP_DIALOG_INFORMATION, false)) {
             setDialogInformation()
         }
+            requestPermission()
     }
 
     private fun setDialogInformation() {
@@ -75,6 +81,34 @@ class CursosMaintActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 22) {
+            if (grantResults.isNotEmpty())
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("TAG", "Permission granted")
+                } else {
+                    Log.i("TAG", "Permission denied")
+                }
+        }
+    }
+
+    private fun requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    22
+                )
+            }
+        }
     }
 
     object PREFERENCE {

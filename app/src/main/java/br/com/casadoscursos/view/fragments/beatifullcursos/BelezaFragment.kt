@@ -8,9 +8,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import br.com.casadoscursos.databinding.CursoFragmentBinding
 import br.com.casadoscursos.helpers.Response
+import br.com.casadoscursos.models.Cursos
+import br.com.casadoscursos.repository.monitoringclickusers.CoursesMonitoring
 import br.com.casadoscursos.view.adapterCursos.AdapterCursos
 import br.com.casadoscursos.view.fragments.cursonavigatebottomsheet.CursoInformationNavigateBottomSheet
-import br.com.casadoscursos.viewModels.RemoteConfigViewModel
+import br.com.casadoscursos.viewModels.SearchCoursesViewModel
 import com.google.android.gms.ads.AdRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -19,7 +21,11 @@ class BelezaFragment : Fragment() {
     private var _binding: CursoFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val viewmodel: RemoteConfigViewModel by viewModel()
+    private val viewmodel: SearchCoursesViewModel by viewModel()
+    private val monitoring by lazy {
+        CoursesMonitoring()
+    }
+
     private val adapterCursos by lazy {
         AdapterCursos()
     }
@@ -35,7 +41,7 @@ class BelezaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewmodel.remoteConfigFetch(context, PARAMENTRO_BEATIFUL)
+        viewmodel.searchCoursesBeleza(context, PARAMENTRO_BEATIFUL)
         setViewModel()
         loadAds()
         setSwipeRefreshLayoutListener()
@@ -43,13 +49,13 @@ class BelezaFragment : Fragment() {
 
     private fun setSwipeRefreshLayoutListener() {
         binding.swipe.setOnRefreshListener {
-            viewmodel.remoteConfigFetch(context, PARAMENTRO_BEATIFUL)
+            viewmodel.searchCoursesBeleza(context, PARAMENTRO_BEATIFUL)
             binding.swipe.isRefreshing = false
         }
     }
 
     private fun setViewModel() {
-        viewmodel.remoteconfig.observe(viewLifecycleOwner) {
+        viewmodel.searchCoursesBeleza.observe(viewLifecycleOwner) {
             when (it) {
                 is Response.LOADING -> {
                     binding.apply {
@@ -73,9 +79,19 @@ class BelezaFragment : Fragment() {
                         requireContext(),
                         it.data,
                         object : AdapterCursos.CursoListener {
-                            override fun onClickCurso(urlAffiliate: String) {
-                                val bottomSheet = CursoInformationNavigateBottomSheet(urlAffiliate)
+                            override fun onClickCurso(curso: Cursos.Curso) {
+
+                                val bottomSheet =
+                                    CursoInformationNavigateBottomSheet(curso.linkCurso.orEmpty())
                                 bottomSheet.show(childFragmentManager, "TAG")
+
+                            }
+
+                            override fun monitoringClick(curso: Cursos.Curso) {
+                                val clickCourses = StringBuilder()
+                                clickCourses.append(curso.linkCurso.orEmpty())
+
+                                monitoring.monitoring(clickCourses.toString(), requireContext())
                             }
                         })
                 }
