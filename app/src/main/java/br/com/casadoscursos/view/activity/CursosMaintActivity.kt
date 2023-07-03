@@ -7,6 +7,8 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -28,7 +30,7 @@ class CursosMaintActivity : AppCompatActivity() {
     }
     private lateinit var sharedPreferences: SharedPreferences
 
-    val titles = arrayListOf("Beleza", "Culinária", "Educação", "Bem Estar")
+    val titles = arrayListOf("Destaques","Beleza", "Culinária", "Educação", "Bem Estar")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +42,8 @@ class CursosMaintActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences(SKIP_DIALOG_INFORMATION, Context.MODE_PRIVATE)
 
         binding.viewPager.adapter = cursosAdapter
+        binding.viewPager.layoutParams =
+            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         binding.apply {
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = titles[position]

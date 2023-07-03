@@ -12,7 +12,7 @@ import br.com.casadoscursos.models.Cursos
 import br.com.casadoscursos.repository.monitoringclickusers.CoursesMonitoring
 import br.com.casadoscursos.view.adapterCursos.AdapterCursos
 import br.com.casadoscursos.view.fragments.cursonavigatebottomsheet.CursoInformationNavigateBottomSheet
-import br.com.casadoscursos.viewModels.SearchCoursesViewModel
+import br.com.casadoscursos.viewModels.searchcourses.SearchCoursesViewModel
 import com.google.android.gms.ads.AdRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

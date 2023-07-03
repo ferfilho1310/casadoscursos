@@ -56,6 +56,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="@+id/textView"
+
             tools:text="R$ 153,25" />
         <TextView
             android:id="@+id/tvNameCurso"

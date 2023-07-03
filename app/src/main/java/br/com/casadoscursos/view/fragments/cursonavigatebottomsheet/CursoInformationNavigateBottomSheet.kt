@@ -48,7 +48,6 @@ class CursoInformationNavigateBottomSheet(var url: String) : BottomSheetDialogFr
         timer.start()
     }
 
-
     private fun sendPageWeb(urlAfiliate: String) {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlAfiliate.trim()))
         startActivity(browserIntent)
