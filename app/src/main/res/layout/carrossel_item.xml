@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/carrosselItem"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:orientation="vertical">
 
@@ -15,6 +15,7 @@
         android:layout_marginTop="24dp"
         android:padding="18dp"
         android:visibility="gone"
+        android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/imgCurso"
         app:layout_constraintEnd_toEndOf="@+id/imgCurso"
         app:layout_constraintStart_toStartOf="@+id/imgCurso"
@@ -22,8 +23,8 @@
 
     <ImageView
         android:id="@+id/imgCurso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

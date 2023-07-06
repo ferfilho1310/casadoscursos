@@ -17,7 +17,10 @@ class DestaquesCarroselViewHolder(val binding: CarrosselItemBinding) :
         }
     }
 
-    fun setOnClickListener(cursos: Cursos.Curso, listener: DestaquesCarroesselAdapter.CarrosselListener?) {
+    fun setOnClickListener(
+        cursos: Cursos.Curso,
+        listener: DestaquesCarroesselAdapter.CarrosselListener?
+    ) {
         binding.carrosselItem.setOnClickListener {
             listener?.onClickItem(cursos.linkCurso.orEmpty())
         }
@@ -30,7 +33,7 @@ class DestaquesCarroselViewHolder(val binding: CarrosselItemBinding) :
         Picasso
             .get()
             .load(cursos.imageCurso)
-            .resize(1000, 800)
+            .resize(1000, 1000)
             .onlyScaleDown()
             .centerCrop()
             .into(binding.imgCurso, object : Callback {
