@@ -22,6 +22,10 @@ class DestaqueCarrosselView @JvmOverloads constructor(
         orientation = VERTICAL
     }
 
+    fun setTextDestaqueCursos(textDestaque: String) {
+        binding.tvTitleCursosDestaque.text = textDestaque
+    }
+
     fun setOnboardingItems(
         cursos: ArrayList<Cursos.Curso>,
         listener: DestaquesCarroesselAdapter.CarrosselListener

@@ -2,5 +2,9 @@ package br.com.casadoscursos.viewModels.carrosselcourses
 
 interface CarrosselCoursesDestaquesViewModelContract {
 
-    fun searchCourseCarrossel()
+    fun searchDestaqueCarrossel(collectionName: String)
+    fun searchDestaqueCarrosselCulinaria(collectionName: String)
+    fun searchDestaqueCarrosselEducacao(collectionName: String)
+    fun searchDestaqueCarrosselBeleza(collectionName: String)
+
 }

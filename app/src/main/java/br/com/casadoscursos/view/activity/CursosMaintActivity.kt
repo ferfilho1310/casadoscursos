@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,12 +14,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import br.com.casadoscursos.R
+import br.com.casadoscursos.R.color
 import br.com.casadoscursos.databinding.CursosMainActivityBinding
 import br.com.casadoscursos.view.activity.CursosMaintActivity.PREFERENCE.SKIP_DIALOG_INFORMATION
 import br.com.casadoscursos.view.activity.adapter.CursosAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import java.lang.StringBuilder
+
 
 class CursosMaintActivity : AppCompatActivity() {
 
@@ -30,20 +31,23 @@ class CursosMaintActivity : AppCompatActivity() {
     }
     private lateinit var sharedPreferences: SharedPreferences
 
-    val titles = arrayListOf("Destaques","Beleza", "Culinária", "Educação", "Bem Estar")
+    val titles = arrayListOf("Destaques", "Beleza", "Culinária", "Educação", "Bem Estar")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         supportActionBar?.hide()
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorStatusBar)
+        window.statusBarColor = ContextCompat.getColor(this, color.colorStatusBar)
 
         sharedPreferences = getSharedPreferences(SKIP_DIALOG_INFORMATION, Context.MODE_PRIVATE)
 
         binding.viewPager.adapter = cursosAdapter
         binding.viewPager.layoutParams =
-            LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
         binding.apply {
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = titles[position]
@@ -53,27 +57,39 @@ class CursosMaintActivity : AppCompatActivity() {
         if (!sharedPreferences.getBoolean(SKIP_DIALOG_INFORMATION, false)) {
             setDialogInformation()
         }
-            requestPermission()
+        requestPermission()
+        setDividerTabLayout()
+    }
+
+
+    private fun setDividerTabLayout() {
+        val root = binding.tabLayout.getChildAt(0)
+        if (root is LinearLayout) {
+            (root).showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
+            val drawable = GradientDrawable()
+            drawable.setColor(resources.getColor(color.colorStatusBar))
+            drawable.setSize(2, 1)
+            (root).dividerPadding = 10
+            (root).dividerDrawable = drawable
+        }
     }
 
     private fun setDialogInformation() {
         val messageInformation = StringBuilder()
         messageInformation.append("1. A Casa dos cursos é apenas um catálogo e NÃO possui responsabilidade nos pagamentos e qualidade dos produtos.\n")
         messageInformation.append("2. Todos os cursos e e-books estão na Hotmart, uma plataforma segura e confiável.\n")
-        messageInformation.append("3. Para acessar o curso adquirido basta efetuar o pagamento e seguir as informações que serão passadas.")
+        messageInformation.append("3. O acesso dos cursos e e-books são todos feitos diretamente pelo portal da hotmart.")
 
         AlertDialog.Builder(this)
             .setTitle("Informação")
             .setMessage(
                 messageInformation
-            )
-            .setPositiveButton(
+            ).setPositiveButton(
                 "Entendi"
             ) { dialog, _ ->
                 preferencesSkipped()
                 dialog?.dismiss()
-            }
-            .show()
+            }.show()
     }
 
     private fun preferencesSkipped() {

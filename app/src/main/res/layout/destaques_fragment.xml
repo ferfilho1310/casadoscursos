@@ -7,12 +7,24 @@
     android:background="@color/backgroundrecycler"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/pg_curso_destaque"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv_destaque"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:fillViewport="true"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,7 +38,33 @@
                 android:id="@+id/destaque_carrossel_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <br.com.casadoscursos.view.fragments.destaques.carrossel.DestaqueCarrosselView
+                android:id="@+id/destaque_carrossel_educacao_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <br.com.casadoscursos.view.fragments.destaques.carrossel.DestaqueCarrosselView
+                android:id="@+id/destaque_carrossel_culinaria_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <br.com.casadoscursos.view.fragments.destaques.carrossel.DestaqueCarrosselView
+                android:id="@+id/destaque_carrossel_beleza_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:adSize="SMART_BANNER"
+        app:adUnitId="ca-app-pub-2528240545678093/2304267850"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
