@@ -1,114 +1,149 @@
 package br.com.casadoscursos.view.fragments.beatifullcursos
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
-import br.com.casadoscursos.databinding.CursoFragmentBinding
-import br.com.casadoscursos.helpers.Response
+import br.com.casadoscursos.R
 import br.com.casadoscursos.models.Cursos
-import br.com.casadoscursos.repository.monitoringclickusers.CoursesMonitoring
-import br.com.casadoscursos.view.adapterCursos.AdapterCursos
-import br.com.casadoscursos.view.fragments.cursonavigatebottomsheet.CursoInformationNavigateBottomSheet
 import br.com.casadoscursos.viewModels.searchcourses.SearchCoursesViewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BelezaFragment : Fragment() {
 
-    private var _binding: CursoFragmentBinding? = null
-    private val binding get() = _binding!!
-
     private val viewmodel: SearchCoursesViewModel by viewModel()
-    private val monitoring by lazy {
-        CoursesMonitoring()
-    }
-
-    private val adapterCursos by lazy {
-        AdapterCursos()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = CursoFragmentBinding.inflate(layoutInflater)
-        return binding.root
+        return inflater.inflate(R.layout.curso_fragment, container, false).apply {
+            findViewById<ComposeView>(R.id.composeView).setContent {
+                SearchCourses(viewModel = viewmodel)
+            }
+
+            val adRequest = AdRequest.Builder().build()
+            findViewById<AdView>(R.id.adView).loadAd(adRequest)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewmodel.searchCoursesBeleza(context, PARAMENTRO_BEATIFUL)
-        setViewModel()
-        loadAds()
-        setSwipeRefreshLayoutListener()
     }
 
-    private fun setSwipeRefreshLayoutListener() {
-        binding.swipe.setOnRefreshListener {
-            viewmodel.searchCoursesBeleza(context, PARAMENTRO_BEATIFUL)
-            binding.swipe.isRefreshing = false
-        }
-    }
+    @Composable
+    fun SearchCourses(
+        viewModel: SearchCoursesViewModel
+    ) {
 
-    private fun setViewModel() {
-        viewmodel.searchCoursesBeleza.observe(viewLifecycleOwner) {
-            when (it) {
-                is Response.LOADING -> {
-                    binding.apply {
-                        rcBeatifulCategory.isVisible = false
-                        pgCurso.isVisible = true
-                    }
+        val curso = viewModel.searchCoursesBeleza.observeAsState()
+
+        curso.value?.data.let {
+            if (it != null) {
+                CursosItem(listCourses = it) { urlAffiliate ->
+                    sendPageWeb(urlAffiliate)
                 }
-
-                is Response.SUCCESS -> {
-                    binding.apply {
-                        rcBeatifulCategory.isVisible = true
-                        pgCurso.isVisible = false
-                    }
-
-                    binding.rcBeatifulCategory.apply {
-                        adapter = adapterCursos
-                        setHasFixedSize(true)
-                    }
-
-                    adapterCursos.setCursos(
-                        requireContext(),
-                        it.data,
-                        object : AdapterCursos.CursoListener {
-                            override fun onClickCurso(curso: Cursos.Curso) {
-
-                                val bottomSheet =
-                                    CursoInformationNavigateBottomSheet(curso.linkCurso.orEmpty())
-                                bottomSheet.show(childFragmentManager, "TAG")
-
-                            }
-
-                            override fun monitoringClick(curso: Cursos.Curso) {
-                                val clickCourses = StringBuilder()
-                                clickCourses.append(curso.linkCurso.orEmpty())
-
-                                monitoring.monitoring(clickCourses.toString(), requireContext())
-                            }
-                        })
-                }
-
-                else -> Unit
             }
         }
     }
 
-    private fun loadAds() {
-        val adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    private fun CursosItem(
+        listCourses: ArrayList<Cursos.Curso>,
+        listener: ((String) -> Unit)? = null
+    ) {
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colorResource(R.color.backgroundrecycler))
+                .padding(10.dp)
+        ) {
+            items(items = listCourses) { curso ->
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(8.dp)
+                        .background(colorResource(R.color.backgroundrecycler)),
+                    onClick = {
+                        listener?.invoke(curso.linkCurso.orEmpty())
+                    }
+                ) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(curso.imageCurso)
+                            .build(),
+                        contentDescription = ""
+                    )
+                    Text(
+                        text = curso.titleCurso.orEmpty(),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black,
+                        modifier = Modifier.padding(4.dp)
+                    )
+                    Text(
+                        text = curso.precoCurso.orEmpty(),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = Color.Black,
+                        modifier = Modifier.padding(4.dp)
+                    )
+                }
+            }
+        }
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    private fun sendPageWeb(urlAfiliate: String) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlAfiliate.trim()))
+        startActivity(browserIntent)
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    fun preview() {
+        CursosItem(
+            listCourses = arrayListOf(
+                Cursos.Curso(
+                    titleCurso = "Teste 1",
+                    subtitleCurso = "Testando o card 1"
+                ),
+                Cursos.Curso(
+                    titleCurso = "Teste 1",
+                    subtitleCurso = "Testando o card 1"
+                )
+            )
+        )
     }
 
     companion object {
