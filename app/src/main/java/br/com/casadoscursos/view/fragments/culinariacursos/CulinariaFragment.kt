@@ -1,7 +1,6 @@
 package br.com.casadoscursos.view.fragments.culinariacursos
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import br.com.casadoscursos.R
 import br.com.casadoscursos.models.Cursos
+import br.com.casadoscursos.view.activity.DetailsCourses
 import br.com.casadoscursos.viewModels.searchcourses.SearchCoursesViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -69,7 +69,7 @@ class CulinariaFragment : Fragment() {
         curso.value?.data.let {
             if (it != null) {
                 CursosItem(listCourses = it) { urlAffiliate ->
-                    sendPageWeb(urlAffiliate)
+                    navigateDetailsCourses(urlAffiliate)
                 }
             }
         }
@@ -79,7 +79,7 @@ class CulinariaFragment : Fragment() {
     @Composable
     private fun CursosItem(
         listCourses: ArrayList<Cursos.Curso>,
-        listener: ((String) -> Unit)? = null
+        listener: ((Cursos.Curso) -> Unit)? = null
     ) {
 
         LazyColumn(
@@ -96,7 +96,7 @@ class CulinariaFragment : Fragment() {
                         .padding(8.dp)
                         .background(colorResource(R.color.backgroundrecycler)),
                     onClick = {
-                        listener?.invoke(curso.linkCurso.orEmpty())
+                        listener?.invoke(curso)
                     }
                 ) {
                     AsyncImage(
@@ -124,9 +124,13 @@ class CulinariaFragment : Fragment() {
         }
     }
 
-    private fun sendPageWeb(urlAfiliate: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlAfiliate.trim()))
-        startActivity(browserIntent)
+    private fun navigateDetailsCourses(curso: Cursos.Curso) {
+        val intent = Intent(
+            requireContext(),
+            DetailsCourses::class.java
+        )
+        intent.putExtra("curso", curso)
+        startActivity(intent)
     }
 
     @Preview(showBackground = true)
