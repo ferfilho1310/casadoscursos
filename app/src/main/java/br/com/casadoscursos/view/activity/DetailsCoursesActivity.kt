@@ -4,12 +4,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,11 +22,18 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -38,7 +49,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.android.gms.ads.AdRequest
 
-class DetailsCourses : AppCompatActivity() {
+class DetailsCoursesActivity : AppCompatActivity() {
 
     private val binding by lazy {
         DetailsCoursesActivityBinding.inflate(layoutInflater)
@@ -108,7 +119,6 @@ class DetailsCourses : AppCompatActivity() {
                             .clip(CircleShape),
                     )
                 }
-
                 Text(
                     text = curso?.titleCurso.orEmpty(),
                     fontSize = 18.sp,
@@ -117,15 +127,9 @@ class DetailsCourses : AppCompatActivity() {
                     modifier = Modifier.padding(4.dp)
                 )
 
-                Text(
-                    text = curso?.subtitleCurso.orEmpty(),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .background(Color.White)
-                )
+                ExpandableCard(title = curso?.subtitleCurso.orEmpty(), detailsCourse = "Apresentação", stateExpanded = true)
+
+                ExpandableCard(title = curso?.descriptionCourse.orEmpty(), detailsCourse = "Detalhes do curso")
             }
 
             Column(
@@ -150,6 +154,72 @@ class DetailsCourses : AppCompatActivity() {
                 {
                     Text(text = "Comprar ${curso?.precoCurso}", color = Color.White)
                 }
+            }
+        }
+    }
+
+    @Composable
+    fun ExpandableCard(title: String, detailsCourse: String? = null, stateExpanded: Boolean = false) {
+
+        var expanded by remember { mutableStateOf(stateExpanded) }
+
+        Card(
+            shape = RoundedCornerShape(8.dp),
+            elevation = 8.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp)
+                .clickable {
+                    expanded = !expanded
+                }
+                .animateContentSize(
+                    spring(
+                        dampingRatio = Spring.DampingRatioNoBouncy,
+                        stiffness = Spring.StiffnessMedium
+                    )
+                )
+        ) {
+            Column(Modifier.background(Color.White)) {
+                if (expanded) {
+                    ArrowRotate(angle = 180f, detailsCourse.orEmpty())
+                    Text(
+                        text = title,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = Color.Black,
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .background(Color.White)
+                    )
+                } else {
+                    ArrowRotate(angle = 0f, detailsCourse.orEmpty())
+                }
+
+            }
+        }
+    }
+
+    @Composable
+    private fun ArrowRotate(angle: Float, titleExpanded: String) {
+        Row {
+            Text(
+                text = titleExpanded,
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.padding(8.dp)
+            )
+
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(end = 8.dp, top = 4.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_arrow),
+                    contentDescription = "",
+                    modifier = Modifier.rotate(angle)
+                )
             }
         }
     }

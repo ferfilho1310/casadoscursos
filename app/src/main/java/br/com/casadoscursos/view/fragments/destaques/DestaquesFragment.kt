@@ -1,7 +1,6 @@
 package br.com.casadoscursos.view.fragments.destaques
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +10,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import br.com.casadoscursos.databinding.DestaquesFragmentBinding
 import br.com.casadoscursos.helpers.Response
+import br.com.casadoscursos.models.Cursos
+import br.com.casadoscursos.view.activity.DetailsCoursesActivity
 import br.com.casadoscursos.viewModels.carrosselcourses.CarrosselCoursesDestaquesViewModel
 import com.google.android.gms.ads.AdRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -70,8 +71,8 @@ class DestaquesFragment : Fragment() {
 
                     binding.destaqueCarrosselView.setTextDestaqueCursos("Top Cursos - Bem estar")
                     it.data?.let { cursos ->
-                        binding.destaqueCarrosselView.setOnboardingItems(cursos) { urlAffiliate ->
-                            sendPageWeb(urlAffiliate)
+                        binding.destaqueCarrosselView.setOnboardingItems(cursos) { curso ->
+                            navigateDetailsCourses(curso)
                         }
                     }
                 }
@@ -85,14 +86,23 @@ class DestaquesFragment : Fragment() {
         }
     }
 
+    private fun navigateDetailsCourses(curso: Cursos.Curso) {
+        val intent = Intent(
+            requireContext(),
+            DetailsCoursesActivity::class.java
+        )
+        intent.putExtra("curso", curso)
+        startActivity(intent)
+    }
+
     private fun setViewModelEducacao() {
         viewModel.destaqueEducacao.observe(viewLifecycleOwner) {
             when (it) {
                 is Response.SUCCESS -> {
                     binding.destaqueCarrosselEducacaoView.setTextDestaqueCursos("Top Cursos - Educação")
                     it.data?.let { cursos ->
-                        binding.destaqueCarrosselEducacaoView.setOnboardingItems(cursos) { urlAffiliate ->
-                            sendPageWeb(urlAffiliate)
+                        binding.destaqueCarrosselEducacaoView.setOnboardingItems(cursos) { curso ->
+                            navigateDetailsCourses(curso)
                         }
                     }
                 }
@@ -112,8 +122,8 @@ class DestaquesFragment : Fragment() {
                 is Response.SUCCESS -> {
                     binding.destaqueCarrosselBelezaView.setTextDestaqueCursos("Top Cursos - Beleza")
                     it.data?.let { cursos ->
-                        binding.destaqueCarrosselBelezaView.setOnboardingItems(cursos) { urlAffiliate ->
-                            sendPageWeb(urlAffiliate)
+                        binding.destaqueCarrosselBelezaView.setOnboardingItems(cursos) { curso ->
+                            navigateDetailsCourses(curso)
                         }
                     }
                 }
@@ -133,8 +143,8 @@ class DestaquesFragment : Fragment() {
                 is Response.SUCCESS -> {
                     binding.destaqueCarrosselCulinariaView.setTextDestaqueCursos("Top Cursos - Culinaria")
                     it.data?.let { cursos ->
-                        binding.destaqueCarrosselCulinariaView.setOnboardingItems(cursos) { urlAffiliate ->
-                            sendPageWeb(urlAffiliate)
+                        binding.destaqueCarrosselCulinariaView.setOnboardingItems(cursos) { curso ->
+                            navigateDetailsCourses(curso)
                         }
                     }
                 }
@@ -151,11 +161,6 @@ class DestaquesFragment : Fragment() {
     private fun loadAds() {
         val adRequest = AdRequest.Builder().build()
         binding.adView.loadAd(adRequest)
-    }
-
-    private fun sendPageWeb(urlAfiliate: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlAfiliate.trim()))
-        startActivity(browserIntent)
     }
 
     companion object {

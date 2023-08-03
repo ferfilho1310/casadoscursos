@@ -22,7 +22,7 @@ class DestaquesCarroselViewHolder(val binding: CarrosselItemBinding) :
         listener: DestaquesCarroesselAdapter.CarrosselListener?
     ) {
         binding.carrosselItem.setOnClickListener {
-            listener?.onClickItem(cursos.linkCurso.orEmpty())
+            listener?.onClickItem(cursos)
         }
     }
 

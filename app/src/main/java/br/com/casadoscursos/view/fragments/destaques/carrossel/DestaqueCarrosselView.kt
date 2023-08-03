@@ -15,7 +15,7 @@ class DestaqueCarrosselView @JvmOverloads constructor(
     def: Int = 0
 ) : LinearLayout(context, attributeSet, def) {
 
-    val binding = DestaqueCarrosselViewBinding.inflate(LayoutInflater.from(context), this)
+    private val binding = DestaqueCarrosselViewBinding.inflate(LayoutInflater.from(context), this)
     private val destaqueCarrolssel by lazy { DestaquesCarroesselAdapter() }
 
     init {

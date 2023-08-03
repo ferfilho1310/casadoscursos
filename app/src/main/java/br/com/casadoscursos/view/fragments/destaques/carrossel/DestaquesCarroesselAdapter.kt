@@ -34,6 +34,6 @@ class DestaquesCarroesselAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     fun interface CarrosselListener {
-        fun onClickItem(linkAffiliate: String)
+        fun onClickItem(curso: Cursos.Curso)
     }
 }
