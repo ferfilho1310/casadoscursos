@@ -132,8 +132,6 @@ class BelezaFragment : Fragment() {
         isVisible: Boolean = false
     ) {
         if (isVisible) {
-
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()

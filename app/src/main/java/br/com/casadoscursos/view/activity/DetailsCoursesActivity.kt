@@ -127,39 +127,33 @@ class DetailsCoursesActivity : AppCompatActivity() {
                     modifier = Modifier.padding(4.dp)
                 )
 
-                ExpandableCard(title = curso?.subtitleCurso.orEmpty(), detailsCourse = "Apresentação", stateExpanded = true)
+                ExpandableCard(
+                    title = curso?.subtitleCurso.orEmpty(),
+                    detailsCourse = "Apresentação"
+                )
 
-                ExpandableCard(title = curso?.descriptionCourse.orEmpty(), detailsCourse = "Detalhes do curso")
-            }
+                ExpandableCard(
+                    title = curso?.descriptionCurso.orEmpty().replace("\\n", "\n"),
+                    detailsCourse = "O que voce vai aprender no curso",
+                    stateExpanded = true
+                )
 
-            Column(
-                verticalArrangement = Arrangement.Bottom,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                Button(
-                    onClick = {
+                binding.btComprar.apply {
+                    setOnClickListener {
                         listener?.onClickSendPageWeb(curso?.linkCurso.orEmpty())
-                    },
-                    colors = androidx.compose.material.ButtonDefaults.buttonColors(
-                        colorResource(id = R.color.black)
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    shape = RoundedCornerShape(4.dp),
-
-                    )
-                {
-                    Text(text = "Comprar ${curso?.precoCurso}", color = Color.White)
+                    }
+                    text = "Comprar ${curso?.precoCurso}"
                 }
             }
         }
     }
 
     @Composable
-    fun ExpandableCard(title: String, detailsCourse: String? = null, stateExpanded: Boolean = false) {
+    fun ExpandableCard(
+        title: String,
+        detailsCourse: String? = null,
+        stateExpanded: Boolean = false
+    ) {
 
         var expanded by remember { mutableStateOf(stateExpanded) }
 
