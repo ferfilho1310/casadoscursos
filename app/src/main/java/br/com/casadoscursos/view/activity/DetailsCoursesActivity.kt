@@ -127,16 +127,28 @@ class DetailsCoursesActivity : AppCompatActivity() {
                     modifier = Modifier.padding(4.dp)
                 )
 
-                ExpandableCard(
-                    title = curso?.subtitleCurso.orEmpty(),
-                    detailsCourse = "Apresentação"
-                )
+                if(curso?.descriptionCurso.isNullOrEmpty()) {
+                    ExpandableCard(
+                        title = curso?.subtitleCurso.orEmpty(),
+                        detailsCourse = "Apresentação",
+                        stateExpanded = true
+                    )
+                }
 
-                ExpandableCard(
-                    title = curso?.descriptionCurso.orEmpty().replace("\\n", "\n"),
-                    detailsCourse = "O que voce vai aprender no curso",
-                    stateExpanded = true
-                )
+                if(!curso?.descriptionCurso.isNullOrEmpty()){
+                    ExpandableCard(
+                        title = curso?.subtitleCurso.orEmpty(),
+                        detailsCourse = "Apresentação",
+                        stateExpanded = false
+                    )
+
+                    ExpandableCard(
+                        title = curso?.descriptionCurso.orEmpty().replace("\\n", "\n"),
+                        detailsCourse = "Conteúdo",
+                        stateExpanded = true
+                    )
+                }
+
 
                 binding.btComprar.apply {
                     setOnClickListener {
