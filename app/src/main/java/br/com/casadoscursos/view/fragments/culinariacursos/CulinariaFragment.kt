@@ -104,7 +104,7 @@ class CulinariaFragment : Fragment() {
     private fun ProgressBar(isVisible: Boolean) {
         if (isVisible) {
             val progressValue = 0.75f
-            val infiniteTransition = rememberInfiniteTransition(label = "")
+            val infiniteTransition = rememberInfiniteTransition()
 
             val progressAnimationValue by infiniteTransition.animateFloat(
                 initialValue = 0.0f,
@@ -113,8 +113,7 @@ class CulinariaFragment : Fragment() {
                     animation = tween(
                         900
                     )
-                ),
-                label = "Carregando..."
+                )
             )
 
             CircularProgressIndicator(
