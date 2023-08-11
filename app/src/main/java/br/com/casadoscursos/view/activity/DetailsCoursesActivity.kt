@@ -21,8 +21,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,8 +44,7 @@ import androidx.compose.ui.unit.sp
 import br.com.casadoscursos.R
 import br.com.casadoscursos.databinding.DetailsCoursesActivityBinding
 import br.com.casadoscursos.models.Cursos
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil.compose.SubcomposeAsyncImage
 import com.google.android.gms.ads.AdRequest
 
 class DetailsCoursesActivity : AppCompatActivity() {
@@ -92,15 +90,23 @@ class DetailsCoursesActivity : AppCompatActivity() {
             Column(
                 Modifier
                     .verticalScroll(rememberScrollState())
+                    .align(Alignment.CenterHorizontally)
             ) {
 
                 Box {
-                    AsyncImage(
-                        model = ImageRequest
-                            .Builder(LocalContext.current)
-                            .data(curso?.imageCurso)
-                            .build(),
+
+                    SubcomposeAsyncImage(
+                        model = curso?.imageCurso,
                         contentDescription = "",
+                        loading = {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .align(
+                                        Alignment.Center
+                                    )
+                                    .padding(100.dp)
+                            )
+                        },
                         modifier = Modifier.padding(
                             start = 0.dp,
                             top = 0.dp,
@@ -127,7 +133,7 @@ class DetailsCoursesActivity : AppCompatActivity() {
                     modifier = Modifier.padding(4.dp)
                 )
 
-                if(curso?.descriptionCurso.isNullOrEmpty()) {
+                if (curso?.descriptionCurso.isNullOrEmpty()) {
                     ExpandableCard(
                         title = curso?.subtitleCurso.orEmpty(),
                         detailsCourse = "Apresentação",
@@ -135,7 +141,7 @@ class DetailsCoursesActivity : AppCompatActivity() {
                     )
                 }
 
-                if(!curso?.descriptionCurso.isNullOrEmpty()){
+                if (!curso?.descriptionCurso.isNullOrEmpty()) {
                     ExpandableCard(
                         title = curso?.subtitleCurso.orEmpty(),
                         detailsCourse = "Apresentação",

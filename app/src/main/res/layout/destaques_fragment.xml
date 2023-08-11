@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundrecycler"
     android:orientation="vertical">
+
 
     <ProgressBar
         android:id="@+id/pg_curso_destaque"
@@ -20,7 +20,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsv_destaque"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
         android:orientation="vertical"
@@ -34,10 +34,86 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardview_meus_cursos"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_margin="12dp"
+                    app:cardBackgroundColor="#993399"
+                    app:cardCornerRadius="9dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cursos comprados"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardview_duvidas"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    android:layout_margin="12dp"
+                    app:cardBackgroundColor="#993399"
+                    app:cardCornerRadius="9dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dúvidas de acesso"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <br.com.casadoscursos.view.fragments.destaques.carrossel.DestaqueCarrosselView
                 android:id="@+id/destaque_carrossel_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp" />
 
             <br.com.casadoscursos.view.fragments.destaques.carrossel.DestaqueCarrosselView
                 android:id="@+id/destaque_carrossel_educacao_view"
@@ -54,7 +130,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.gms.ads.AdView

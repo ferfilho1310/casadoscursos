@@ -1,6 +1,7 @@
 package br.com.casadoscursos.view.fragments.destaques
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,11 +49,32 @@ class DestaquesFragment : Fragment() {
         setViewModelCulinaria()
         setViewModelEducacao()
         loadAds()
+        accessAreaCourses()
+        accessDuvidasAcesso()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun accessAreaCourses() {
+        binding.cardviewMeusCursos.setOnClickListener {
+            val browserIntent = Intent(
+                Intent.ACTION_VIEW, Uri.parse("http://purchase.hotmart.com")
+            )
+            startActivity(browserIntent)
+        }
+    }
+
+    private fun accessDuvidasAcesso() {
+        binding.cardviewDuvidas.setOnClickListener {
+            val browserIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://help.hotmart.com/pt-BR/article/como-acessar-o-produto-que-comprei-/215827338")
+            )
+            startActivity(browserIntent)
+        }
     }
 
     private fun setViewModelBemEstar() {

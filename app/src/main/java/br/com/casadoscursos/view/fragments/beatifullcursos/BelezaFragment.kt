@@ -21,10 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,8 +36,7 @@ import br.com.casadoscursos.helpers.Response
 import br.com.casadoscursos.models.Cursos
 import br.com.casadoscursos.view.activity.DetailsCoursesActivity
 import br.com.casadoscursos.viewModels.searchcourses.SearchCoursesViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil.compose.SubcomposeAsyncImage
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -89,13 +88,36 @@ class BelezaFragment : Fragment() {
                             listener = ::navigateDetailsCourses
                         )
                     }
-
                 }
 
                 is Response.ERROR -> {
 
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun ProgressBarItem(isVisible: Boolean) {
+        if (isVisible) {
+            val progressValue = 0.75f
+            val infiniteTransition = rememberInfiniteTransition()
+
+            val progressAnimationValue by infiniteTransition.animateFloat(
+                initialValue = 0.0f,
+                targetValue = progressValue,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(
+                        900
+                    )
+                )
+            )
+
+            CircularProgressIndicator(
+                progress = progressAnimationValue,
+                color = colorResource(id = R.color.purple_500),
+                modifier = Modifier.padding(180.dp)
+            )
         }
     }
 
@@ -131,6 +153,7 @@ class BelezaFragment : Fragment() {
         isVisible: Boolean = false
     ) {
         if (isVisible) {
+
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -148,11 +171,29 @@ class BelezaFragment : Fragment() {
                             listener?.invoke(curso)
                         }
                     ) {
-                        AsyncImage(
+
+                        /*AsyncImage(
                             model = ImageRequest.Builder(LocalContext.current)
                                 .data(curso.imageCurso)
+                                .crossfade(true)
                                 .build(),
                             contentDescription = ""
+                        )*/
+
+                        SubcomposeAsyncImage(
+                            model = curso.imageCurso,
+                            contentDescription = "",
+                            loading = {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .align(
+                                            Alignment.Center
+                                        )
+                                        .padding(100.dp)
+                                )
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
                         )
 
                         Text(

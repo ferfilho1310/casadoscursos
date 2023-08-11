@@ -21,10 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,8 +36,7 @@ import br.com.casadoscursos.helpers.Response
 import br.com.casadoscursos.models.Cursos
 import br.com.casadoscursos.view.activity.DetailsCoursesActivity
 import br.com.casadoscursos.viewModels.searchcourses.SearchCoursesViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil.compose.SubcomposeAsyncImage
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -148,12 +147,29 @@ class EducacaoFragment : Fragment() {
                             listener?.invoke(curso)
                         }
                     ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(curso.imageCurso)
-                                .build(),
-                            contentDescription = ""
+                        /*    AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(curso.imageCurso)
+                                    .build(),
+                                contentDescription = ""
+                            )*/
+
+                        SubcomposeAsyncImage(
+                            model = curso.imageCurso,
+                            contentDescription = "",
+                            loading = {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .align(
+                                            Alignment.Center
+                                        )
+                                        .padding(100.dp)
+                                )
+                            },
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
                         )
+
                         Text(
                             text = curso.titleCurso.orEmpty(),
                             fontSize = 16.sp,
