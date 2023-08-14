@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -58,20 +57,6 @@ class CursosMaintActivity : AppCompatActivity() {
             setDialogInformation()
         }
         requestPermission()
-        setDividerTabLayout()
-    }
-
-
-    private fun setDividerTabLayout() {
-        val root = binding.tabLayout.getChildAt(0)
-        if (root is LinearLayout) {
-            (root).showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
-            val drawable = GradientDrawable()
-            drawable.setColor(resources.getColor(color.colorStatusBar))
-            drawable.setSize(2, 1)
-            (root).dividerPadding = 10
-            (root).dividerDrawable = drawable
-        }
     }
 
     private fun setDialogInformation() {

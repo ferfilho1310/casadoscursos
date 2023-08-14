@@ -6,7 +6,6 @@
     android:background="@color/backgroundrecycler"
     android:orientation="vertical">
 
-
     <ProgressBar
         android:id="@+id/pg_curso_destaque"
         android:layout_width="wrap_content"
