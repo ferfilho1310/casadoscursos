@@ -41,11 +41,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import br.com.casadoscursos.R
 import br.com.casadoscursos.databinding.DetailsCoursesActivityBinding
 import br.com.casadoscursos.models.Cursos
 import coil.compose.SubcomposeAsyncImage
 import com.google.android.gms.ads.AdRequest
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class DetailsCoursesActivity : AppCompatActivity() {
 
@@ -58,6 +62,7 @@ class DetailsCoursesActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+
         val details: Cursos.Curso? = intent.extras?.getParcelable("curso")
 
         binding.composeviewDetailsCourse.setContent {
@@ -67,9 +72,12 @@ class DetailsCoursesActivity : AppCompatActivity() {
                 }
 
                 override fun onClickBack() {
+                    val finishDetails =
+                        Intent(this@DetailsCoursesActivity, CursosMaintActivity::class.java)
+                    finishDetails.flags =
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     finish()
                 }
-
             })
         }
         loadAds()
@@ -129,7 +137,7 @@ class DetailsCoursesActivity : AppCompatActivity() {
                     text = curso?.titleCurso.orEmpty(),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.Black,
+                    color = Color.White,
                     modifier = Modifier.padding(4.dp)
                 )
 
@@ -139,6 +147,12 @@ class DetailsCoursesActivity : AppCompatActivity() {
                         detailsCourse = "Apresentação",
                         stateExpanded = true
                     )
+
+                    if (curso?.idVideo?.isEmpty() == false) {
+                        YoutubeVideo(
+                            idVideo = curso?.idVideo?.split("v=")?.get(1).toString()
+                        )
+                    }
                 }
 
                 if (!curso?.descriptionCurso.isNullOrEmpty()) {
@@ -148,6 +162,12 @@ class DetailsCoursesActivity : AppCompatActivity() {
                         stateExpanded = false
                     )
 
+                    if (curso?.idVideo?.isEmpty() == false) {
+                        YoutubeVideo(
+                            idVideo = curso?.idVideo?.split("v=")?.get(1).toString()
+                        )
+                    }
+
                     ExpandableCard(
                         title = curso?.descriptionCurso.orEmpty().replace("\\n", "\n"),
                         detailsCourse = "Conteúdo",
@@ -155,13 +175,48 @@ class DetailsCoursesActivity : AppCompatActivity() {
                     )
                 }
 
-
                 binding.btComprar.apply {
                     setOnClickListener {
                         listener?.onClickSendPageWeb(curso?.linkCurso.orEmpty())
                     }
                     text = "Comprar ${curso?.precoCurso}"
                 }
+            }
+        }
+    }
+
+    @Composable
+    fun YoutubeVideo(idVideo: String) {
+        Card(
+            shape = RoundedCornerShape(8.dp),
+            elevation = 8.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp)
+        ) {
+
+            Column(modifier = Modifier.background(Color.White)) {
+
+                Text(
+                    text = "Video de apresentação",
+                    modifier = Modifier.padding(8.dp),
+                    style = MaterialTheme.typography.h6,
+                )
+
+                AndroidView(
+                    modifier = Modifier.fillMaxWidth(),
+                    factory = {
+                        val view = YouTubePlayerView(it)
+                        view.addYouTubePlayerListener(
+                            object : AbstractYouTubePlayerListener() {
+                                override fun onReady(youTubePlayer: YouTubePlayer) {
+                                    super.onReady(youTubePlayer)
+                                    youTubePlayer.loadVideo(idVideo, 0f)
+                                }
+                            }
+                        )
+                        view
+                    })
             }
         }
     }
@@ -259,11 +314,11 @@ class DetailsCoursesActivity : AppCompatActivity() {
                 titleCurso = "Teste 1",
                 subtitleCurso = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
                 imageCurso = "https://iili.io/HibZChJ.jpg",
-                precoCurso = "R$ 79,90"
+                precoCurso = "R$ 79,90",
+                idVideo = ""
             )
         )
     }
-
 }
 
 

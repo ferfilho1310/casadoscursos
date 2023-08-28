@@ -15,6 +15,7 @@ data class Cursos(
         val imageCurso: String? = null,
         val subtitleCurso: String? = null,
         val precoCurso: String? = null,
-        val descriptionCurso: String? = null
+        val descriptionCurso: String? = null,
+        val idVideo:String? = null
     ) : Parcelable
 }
