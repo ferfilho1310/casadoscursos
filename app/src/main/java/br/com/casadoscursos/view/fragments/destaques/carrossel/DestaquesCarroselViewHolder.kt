@@ -1,7 +1,9 @@
 package br.com.casadoscursos.view.fragments.destaques.carrossel
 
+import android.content.Context
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import br.com.casadoscursos.analyticsEvents.Analytics
 import br.com.casadoscursos.databinding.CarrosselItemBinding
 import br.com.casadoscursos.models.Cursos
 import com.squareup.picasso.Callback
@@ -17,12 +19,43 @@ class DestaquesCarroselViewHolder(val binding: CarrosselItemBinding) :
         }
     }
 
+    fun setOnClickButtonListener(
+        cursos: Cursos.Curso,
+        listener: DestaquesCarroesselAdapter.CarrosselListener?,
+        context: Context?
+    ) {
+        binding.btVerDetalhes.setOnClickListener {
+            listener?.onClickButtonItem(cursos)
+
+            val cursoIdentified = StringBuilder()
+
+            cursoIdentified.append("Ver detalhes - ")
+                .append("Cursos Destaques - ")
+                .append("Nome do curso - " + cursos.titleCurso)
+
+            Analytics.eventAnalytics(
+                cursoIdentified.toString(),
+                context!!
+            )
+        }
+    }
+
     fun setOnClickListener(
         cursos: Cursos.Curso,
-        listener: DestaquesCarroesselAdapter.CarrosselListener?
+        listener: DestaquesCarroesselAdapter.CarrosselListener?,
+        context: Context?
     ) {
         binding.carrosselItem.setOnClickListener {
             listener?.onClickItem(cursos)
+
+            val cursoIdentified = StringBuilder()
+            cursoIdentified.append("Cursos Destaques - ")
+                .append("Nome do curso - " + cursos.titleCurso)
+
+            Analytics.eventAnalytics(
+                cursoIdentified.toString(),
+                context!!
+            )
         }
     }
 

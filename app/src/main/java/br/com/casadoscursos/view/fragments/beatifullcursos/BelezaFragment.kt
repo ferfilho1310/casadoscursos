@@ -11,9 +11,13 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import br.com.casadoscursos.R
+import br.com.casadoscursos.analyticsEvents.Analytics
 import br.com.casadoscursos.helpers.Response
 import br.com.casadoscursos.models.Cursos
 import br.com.casadoscursos.view.activity.DetailsCoursesActivity
@@ -98,30 +103,6 @@ class BelezaFragment : Fragment() {
     }
 
     @Composable
-    private fun ProgressBarItem(isVisible: Boolean) {
-        if (isVisible) {
-            val progressValue = 0.75f
-            val infiniteTransition = rememberInfiniteTransition()
-
-            val progressAnimationValue by infiniteTransition.animateFloat(
-                initialValue = 0.0f,
-                targetValue = progressValue,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(
-                        900
-                    )
-                )
-            )
-
-            CircularProgressIndicator(
-                progress = progressAnimationValue,
-                color = colorResource(id = R.color.purple_500),
-                modifier = Modifier.padding(180.dp)
-            )
-        }
-    }
-
-    @Composable
     private fun ProgressBar(isVisible: Boolean) {
         if (isVisible) {
             val progressValue = 0.75f
@@ -153,32 +134,32 @@ class BelezaFragment : Fragment() {
         isVisible: Boolean = false
     ) {
         if (isVisible) {
-
-            LazyColumn(
+            LazyVerticalStaggeredGrid(
+                StaggeredGridCells.Fixed(2),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(colorResource(R.color.backgroundrecycler))
                     .padding(10.dp)
             ) {
-                items(items = listCourses) { curso ->
+                itemsIndexed(items = listCourses) { _, curso ->
 
                     Card(
                         modifier = Modifier
-                            .fillMaxSize()
                             .padding(8.dp)
                             .background(colorResource(R.color.backgroundrecycler)),
                         onClick = {
                             listener?.invoke(curso)
+
+                            val cursoIdentified = StringBuilder()
+                            cursoIdentified.append("Beleza - ")
+                                .append("Nome do curso - " + curso.titleCurso)
+
+                            Analytics.eventAnalytics(
+                                cursoIdentified.toString(),
+                                requireContext()
+                            )
                         }
                     ) {
-
-                        /*AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(curso.imageCurso)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = ""
-                        )*/
 
                         SubcomposeAsyncImage(
                             model = curso.imageCurso,
@@ -189,7 +170,7 @@ class BelezaFragment : Fragment() {
                                         .align(
                                             Alignment.Center
                                         )
-                                        .padding(100.dp)
+                                        .padding(24.dp)
                                 )
                             },
                             modifier = Modifier
@@ -211,6 +192,33 @@ class BelezaFragment : Fragment() {
                             color = Color.Black,
                             modifier = Modifier.padding(4.dp)
                         )
+
+                        Button(
+                            onClick = {
+                                navigateDetailsCourses(curso)
+                                val cursoIdentified = StringBuilder()
+
+                                cursoIdentified.append("Ver detalhes - ")
+                                    .append("Beleza - ")
+                                    .append("Nome do curso - " + curso.titleCurso)
+
+                                Analytics.eventAnalytics(
+                                    cursoIdentified.toString(),
+                                    requireContext()
+                                )
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            colors = ButtonDefaults
+                                .buttonColors(colorResource(R.color.backgroundrecycler))
+                        ) {
+                            Text(
+                                text = "Ver Detalhes",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
                 }
             }

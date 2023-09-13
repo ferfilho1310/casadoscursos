@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.casadoscursos.databinding.DestaqueCarrosselViewBinding
 import br.com.casadoscursos.models.Cursos
 
@@ -33,13 +33,13 @@ class DestaqueCarrosselView @JvmOverloads constructor(
         binding.rcTopCursos.apply {
             adapter = destaqueCarrolssel
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context, 2)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             val dividerItemDecoration = DividerItemDecoration(
                 context,
-                GridLayoutManager.HORIZONTAL
+                StaggeredGridLayoutManager.HORIZONTAL
             )
             addItemDecoration(dividerItemDecoration)
         }
-        destaqueCarrolssel.setItemsCarroessel(cursos, listener)
+        destaqueCarrolssel.setItemsCarroessel(cursos, listener, context)
     }
 }

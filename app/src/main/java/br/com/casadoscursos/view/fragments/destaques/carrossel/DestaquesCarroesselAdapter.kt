@@ -1,5 +1,6 @@
 package br.com.casadoscursos.view.fragments.destaques.carrossel
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,11 +11,13 @@ class DestaquesCarroesselAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     var cursosList: ArrayList<Cursos.Curso> = arrayListOf()
     var listener: CarrosselListener? = null
+    var context: Context? = null
 
-    fun setItemsCarroessel(items: ArrayList<Cursos.Curso>, listener: CarrosselListener?) {
+    fun setItemsCarroessel(items: ArrayList<Cursos.Curso>, listener: CarrosselListener?, context: Context) {
         cursosList.clear()
         cursosList.addAll(items)
         this.listener = listener
+        this.context = context
         notifyDataSetChanged()
     }
 
@@ -30,10 +33,12 @@ class DestaquesCarroesselAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
         val carrosselHolder = holder as DestaquesCarroselViewHolder
         carrosselHolder.bind(cursosList[position])
         carrosselHolder.setImage(cursosList[position])
-        carrosselHolder.setOnClickListener(cursosList[position], listener)
+        carrosselHolder.setOnClickListener(cursosList[position], listener, context)
+        carrosselHolder.setOnClickButtonListener(cursosList[position], listener, context)
     }
 
-    fun interface CarrosselListener {
+    interface CarrosselListener {
         fun onClickItem(curso: Cursos.Curso)
+        fun onClickButtonItem(curso: Cursos.Curso)
     }
 }

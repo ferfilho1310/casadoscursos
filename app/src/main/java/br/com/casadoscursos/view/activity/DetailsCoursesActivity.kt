@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import br.com.casadoscursos.R
+import br.com.casadoscursos.analyticsEvents.Analytics
 import br.com.casadoscursos.databinding.DetailsCoursesActivityBinding
 import br.com.casadoscursos.models.Cursos
 import coil.compose.SubcomposeAsyncImage
@@ -50,6 +51,7 @@ import com.google.android.gms.ads.AdRequest
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import java.lang.StringBuilder
 
 class DetailsCoursesActivity : AppCompatActivity() {
 
@@ -150,7 +152,7 @@ class DetailsCoursesActivity : AppCompatActivity() {
 
                     if (curso?.idVideo?.isEmpty() == false) {
                         YoutubeVideo(
-                            idVideo = curso?.idVideo?.split("v=")?.get(1).toString()
+                            idVideo = curso.idVideo.split("v=")[1]
                         )
                     }
                 }
@@ -164,7 +166,7 @@ class DetailsCoursesActivity : AppCompatActivity() {
 
                     if (curso?.idVideo?.isEmpty() == false) {
                         YoutubeVideo(
-                            idVideo = curso?.idVideo?.split("v=")?.get(1).toString()
+                            idVideo = curso.idVideo.split("v=")[1]
                         )
                     }
 
@@ -178,6 +180,10 @@ class DetailsCoursesActivity : AppCompatActivity() {
                 binding.btComprar.apply {
                     setOnClickListener {
                         listener?.onClickSendPageWeb(curso?.linkCurso.orEmpty())
+                        val coursePurchase = StringBuilder()
+                        coursePurchase.append("Curso Comprado - " + curso?.titleCurso)
+
+                        Analytics.eventAnalytics(coursePurchase.toString(), context)
                     }
                     text = "Comprar ${curso?.precoCurso}"
                 }

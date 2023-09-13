@@ -13,6 +13,7 @@ import br.com.casadoscursos.databinding.DestaquesFragmentBinding
 import br.com.casadoscursos.helpers.Response
 import br.com.casadoscursos.models.Cursos
 import br.com.casadoscursos.view.activity.DetailsCoursesActivity
+import br.com.casadoscursos.view.fragments.destaques.carrossel.DestaquesCarroesselAdapter
 import br.com.casadoscursos.viewModels.carrosselcourses.CarrosselCoursesDestaquesViewModel
 import com.google.android.gms.ads.AdRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -93,9 +94,18 @@ class DestaquesFragment : Fragment() {
 
                     binding.destaqueCarrosselView.setTextDestaqueCursos("Top Cursos - Bem estar")
                     it.data?.let { cursos ->
-                        binding.destaqueCarrosselView.setOnboardingItems(cursos) { curso ->
-                            navigateDetailsCourses(curso)
-                        }
+                        binding.destaqueCarrosselView.setOnboardingItems(
+                            cursos,
+                            object : DestaquesCarroesselAdapter.CarrosselListener {
+                                override fun onClickItem(curso: Cursos.Curso) {
+                                    navigateDetailsCourses(curso)
+                                }
+
+                                override fun onClickButtonItem(curso: Cursos.Curso) {
+                                    navigateDetailsCourses(curso)
+                                }
+                            }
+                        )
                     }
                 }
 
@@ -123,9 +133,18 @@ class DestaquesFragment : Fragment() {
                 is Response.SUCCESS -> {
                     binding.destaqueCarrosselEducacaoView.setTextDestaqueCursos("Top Cursos - Educação")
                     it.data?.let { cursos ->
-                        binding.destaqueCarrosselEducacaoView.setOnboardingItems(cursos) { curso ->
-                            navigateDetailsCourses(curso)
-                        }
+                        binding.destaqueCarrosselEducacaoView.setOnboardingItems(
+                            cursos,
+                            object : DestaquesCarroesselAdapter.CarrosselListener {
+                                override fun onClickItem(curso: Cursos.Curso) {
+                                    navigateDetailsCourses(curso)
+                                }
+
+                                override fun onClickButtonItem(curso: Cursos.Curso) {
+                                    navigateDetailsCourses(curso)
+                                }
+                            }
+                        )
                     }
                 }
 
@@ -144,9 +163,18 @@ class DestaquesFragment : Fragment() {
                 is Response.SUCCESS -> {
                     binding.destaqueCarrosselBelezaView.setTextDestaqueCursos("Top Cursos - Beleza")
                     it.data?.let { cursos ->
-                        binding.destaqueCarrosselBelezaView.setOnboardingItems(cursos) { curso ->
-                            navigateDetailsCourses(curso)
-                        }
+                        binding.destaqueCarrosselBelezaView.setOnboardingItems(
+                            cursos,
+                            object : DestaquesCarroesselAdapter.CarrosselListener {
+                                override fun onClickItem(curso: Cursos.Curso) {
+                                    navigateDetailsCourses(curso)
+                                }
+
+                                override fun onClickButtonItem(curso: Cursos.Curso) {
+                                    navigateDetailsCourses(curso)
+                                }
+                            }
+                        )
                     }
                 }
 
@@ -165,9 +193,18 @@ class DestaquesFragment : Fragment() {
                 is Response.SUCCESS -> {
                     binding.destaqueCarrosselCulinariaView.setTextDestaqueCursos("Top Cursos - Culinaria")
                     it.data?.let { cursos ->
-                        binding.destaqueCarrosselCulinariaView.setOnboardingItems(cursos) { curso ->
-                            navigateDetailsCourses(curso)
-                        }
+                        binding.destaqueCarrosselCulinariaView.setOnboardingItems(
+                            cursos,
+                            object : DestaquesCarroesselAdapter.CarrosselListener {
+                                override fun onClickItem(curso: Cursos.Curso) {
+                                    navigateDetailsCourses(curso)
+                                }
+
+                                override fun onClickButtonItem(curso: Cursos.Curso) {
+                                    navigateDetailsCourses(curso)
+                                }
+                            }
+                        )
                     }
                 }
 
